@@ -58,7 +58,7 @@ function onTextareaInput (evt) {
 };
 
 function onFormData() {
-    initialData = JSON.parse(localStorage.getItem(STORAGE_KEY));
+    const initialData = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (!initialData){
         return;
     }
