@@ -12,15 +12,23 @@ console.log(refs.textarea);
 
 refs.form.addEventListener('submit', onFormSubmit);
 // refs.input.addEventListener('input', onTextareaInput);
-refs.textarea.addEventListener('input', throttle(onTextareaInput, 500)); /*Для правильної роботи потрібно замінити в onTextareaInput currentTarget на target, щоб запобігти постійному спливанню подій*/
+refs.form.addEventListener('input', throttle(onFormInput, 500)); /*Для правильної роботи потрібно замінити в onTextareaInput currentTarget на target, щоб запобігти постійному спливанню подій*/
 
-refs.form.addEventListener('input', event => {
+// refs.form.addEventListener('input', event => {
+//     // console.log(event.target.name);
+//     // console.log(event.target.value);
+//     formData[event.target.name] = event.target.value;
+//     console.log(formData);
+//     localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
+// })
+function onFormInput(event) {
     // console.log(event.target.name);
     // console.log(event.target.value);
     formData[event.target.name] = event.target.value;
     console.log(formData);
     localStorage.setItem(STORAGE_KEY, JSON.stringify(formData));
-})
+};
+
 
 // populateTextarea ();
 
@@ -64,9 +72,9 @@ function onFormData() {
 };
 
 
-// /*
-//     * Отримуємо значення із сховища;
-// */
+/*
+    * Отримуємо значення із сховища;
+*/
 // function populateTextarea () {
 //     const savedMesage = localStorage.getItem(STORAGE_KEY);
     
