@@ -1,18 +1,21 @@
 import throttle from 'lodash.throttle';
 const STORAGE_KEY = 'feedback-form-state'; /* Використовується для запобіганню магічних чисел, в нашому випадку (ключа до локальної пам`яті) */
-const formData = {};
+let formData = {}; /* Повинна бути не строга змінна для збереження нових змін у формі*/
 const refs = {
     form: document.querySelector(".feedback-form"),
     input: document.querySelector('[name = "email"]'),
     textarea: document.querySelector('[name = "message"]'),
 }
+onFormData();
+
 console.log(refs.form);
 console.log(refs.input);
 console.log(refs.textarea);
 
+refs.form.addEventListener('input', throttle(onFormInput, 500)); /*Для правильної роботи потрібно замінити в onTextareaInput currentTarget на target, щоб запобігти постійному спливанню подій*/
 refs.form.addEventListener('submit', onFormSubmit);
 // refs.input.addEventListener('input', onTextareaInput);
-refs.form.addEventListener('input', throttle(onFormInput, 500)); /*Для правильної роботи потрібно замінити в onTextareaInput currentTarget на target, щоб запобігти постійному спливанню подій*/
+
 
 // refs.form.addEventListener('input', event => {
 //     // console.log(event.target.name);
@@ -32,7 +35,7 @@ function onFormInput(event) {
 
 // populateTextarea ();
 
-onFormData();
+
 
 /*
     * Зупиняємо поведінку за замовчуванням;
@@ -41,9 +44,10 @@ onFormData();
 */onTextareaInput
 function onFormSubmit (evt) {
     evt.preventDefault(); /*Зупиняємо поведінку за замовчуванням */
-    // console.log("Відправка форми!!!")
+    console.log('formData:', formData);
     evt.currentTarget.reset(); /* Очищуєм форму */
     localStorage.removeItem(STORAGE_KEY); /*очищає форму в local storage */
+    formData = {};
 };
 
 /*
@@ -68,7 +72,7 @@ function onFormData() {
     if (initialData.message) {
         refs.textarea.value = initialData.message;
     }
-    // formData = initialData;
+    formData = initialData;
 };
 
 
